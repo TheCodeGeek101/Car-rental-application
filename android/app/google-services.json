@@ -12,7 +12,9 @@
           "package_name": "com.example.thula_rental"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyClRsVlx9u30Vf_VxgpOd57RvlJAD036hA"
