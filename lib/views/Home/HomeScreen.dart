@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../utils/colors.dart';
+import 'package:thula_rental/views/widgets/NavigationDrawer.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -22,7 +23,7 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
-            title: const Text("Home",style: TextStyle(color: Colors.white, font: bold)),
+            title: const Text("Home",style: TextStyle(color: Colors.white,)),
             backgroundColor: backgroundColor,
             actions: <Widget>[
         IconButton(
@@ -35,6 +36,7 @@ class HomeScreen extends StatelessWidget {
       )
     ]
         ),
+        drawer: NavDrawer(),
         body: Column(
           children:[
             Padding(

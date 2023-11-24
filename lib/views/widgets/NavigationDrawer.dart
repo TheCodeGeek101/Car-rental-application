@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/colors.dart';
 import '../Login/LoginScreen.dart';
+import '../Profile/Profile.dart';
+import '../Settings/Settings.dart';
 
-class NavigationDrawer extends StatefulWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
+class NavDrawer extends StatefulWidget {
+  const NavDrawer({super.key});
 
   @override
-  State<NavigationDrawer> createState() => _NavigationDrawerState();
+  State<NavDrawer> createState() => _NavDrawerState();
 }
 
-class _NavigationDrawerState extends State<NavigationDrawer> {
+class _NavDrawerState extends State<NavDrawer> {
 
   String _name="";
   String _email="";
@@ -49,11 +52,11 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
   );
 
   Widget buildHeader(BuildContext context) => Material(
-    color: Colors.lightBlue,
+    color: backgroundColor,
     child: InkWell(
       onTap: (){
         Navigator.pop(context);
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoginScreen(),
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  Profile(),
         ));
       },
       child: Container(
@@ -65,9 +68,7 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           children:  [
             CircleAvatar(
               radius: 52,
-              backgroundImage: NetworkImage(
-                  _logo
-              ),
+              backgroundImage: AssetImage("assets/images/thulawenamotors.png"),
             ),
             SizedBox(height: 12,),
             Text(
@@ -89,16 +90,16 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
     child: Wrap(
       runSpacing: 16,
       children: [
-        ListTile(
-          leading: const Icon(Icons.contacts),
-          title: const Text("Close Contact"),
-          onTap: (){
-            //close navigation drawer
-            Navigator.pop(context);
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  Contact(),
-            ));
-          },
-        ),
+        // ListTile(
+        //   leading: const Icon(Icons.contacts),
+        //   title: const Text("Close Contact"),
+        //   onTap: (){
+        //     //close navigation drawer
+        //     Navigator.pop(context);
+        //     Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  Contact(),
+        //     ));
+        //   },
+        // ),
         ListTile(
           leading: const Icon(Icons.settings_sharp),
           title: const Text("Settings"),
