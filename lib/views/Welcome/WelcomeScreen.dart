@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:thula_rental/views/Welcome/widgets/BackgroundImage.dart';
 import 'package:thula_rental/views/Welcome/widgets/CarDescription.dart';
 import 'package:thula_rental/views/Home/HomeScreen.dart';
+import 'package:thula_rental/views/Register/RegisterScreen.dart';
 import '../../utils/colors.dart';
+import '../Login/LoginScreen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -43,7 +45,7 @@ class WelcomeScreen extends StatelessWidget {
                                      borderRadius: BorderRadius.circular(12)),
                               ),
                               onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HomeScreen()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => RegisterUser()));
                               },
                               child: Text("Get started",style:
                                 Theme.of(context)
@@ -59,10 +61,10 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                       Positioned(
                         top: -size.height * 0.5 * 0.7,
-                        left: -size.height * 0.5 * 0.55,
+                        left: -size.height * 0.5 * 0.10,
                         child: SizedBox(
                           height: size.height * 0.5,
-                          child: Image.asset("assets/images/aas.png",fit: BoxFit.fitHeight)
+                          child: Image.asset("assets/images/aa.png",fit: BoxFit.fitHeight)
                         ),
                       ),
                     ],

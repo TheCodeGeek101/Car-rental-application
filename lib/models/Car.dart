@@ -9,9 +9,9 @@ class Car {
 }
 
 List<Car> cars = [
-  Car("Mercedez Benz AMG GT s63", "assets/benzamg.jpg", "assets/benzlogo.jpg","assets/benzamg1.jpg",2000),
-  Car("Mercedez Benz c200", "assets/c2001.jpg", "assets/benzlogo.jpg","assets/c200.jpg",1000),
-  Car("Bmw M5 series", "assets/bmw.jpg", "assets/bmwlogo.jpg","assets/rear.jpg",2500),
-  Car("AUDI RS7", "assets/audi.jpg", "assets/audilogo.jpg","assets/audirs7.jpg",1500),
+  Car("Mercedez Benz AMG GT s63", "assets/images/benzamg.jpg", "assets/images/benzlogo.jpg","assets/images/benzamg1.jpg",2000),
+  Car("Mercedez Benz c200", "assets/images/c2001.jpg", "assets/images/benzlogo.jpg","assets/images/c200.jpg",1000),
+  Car("Bmw M5 series", "assets/images/bmw.jpg", "assets/images/bmwlogo.jpg","assets/images/rear.jpg",2500),
+  Car("AUDI RS7", "assets/images/audi.jpg", "assets/images/audilogo.jpg","assets/images/audirs7.jpg",1500),
 ];
 

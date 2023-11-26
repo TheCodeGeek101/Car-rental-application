@@ -10,19 +10,19 @@ class TitleText extends StatelessWidget {
     // TODO: implement build
     return RichText(
         text: TextSpan(
-            text: "Turn Moments into Memories with our",
+            text: "Turn Moments into Memories with",
             style: Theme.of(context)
                 .textTheme
                 .headlineSmall!
                 .copyWith(
               color: Colors.white,
-              letterSpacing:1.2,
+              letterSpacing:1.8,
               fontWeight: FontWeight.bold,
             ),
             children:
             const [
               TextSpan(
-                  text:"Rental Fleet",
+                  text:"Thulawena Motors",
                   style: TextStyle(color: btnPrimary)
               )
             ]

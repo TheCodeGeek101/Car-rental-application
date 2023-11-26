@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:thula_rental/views/Login/widgets/FormFields.dart';
-import 'package:thula_rental/views/Login/widgets/_buildStaticMapImage.dart';
-import '../../utils/colors.dart';
+import 'package:thula_rental/views/Register/widgets/FormFields.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+import '../../utils/colors.dart';
+import '../Login/widgets/_buildStaticMapImage.dart';
+
+class RegisterUser extends StatefulWidget {
+  RegisterUser({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  _RegisterUserState createState() {
+    return _RegisterUserState();
+  }
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterUserState extends State<RegisterUser> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
@@ -38,11 +51,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 2.0,),
                 Text(
-                  "log into your account",
+                  "Sign up to get started",
                   textAlign: TextAlign.center,
                   style:TextStyle(fontSize: 13.0,fontFamily: "Brand Bold",color: Colors.grey.shade500,),
                 ),
-              FormFields(),
+                FormFields(),
               ],
             ),
           ),

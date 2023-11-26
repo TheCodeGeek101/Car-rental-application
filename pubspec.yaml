@@ -79,6 +79,9 @@ flutter:
      - assets/images/audirs71.jpg
      - assets/images/thulawenamotors.png
      - assets/images/aas.png
+     - assets/images/settings.png
+     - assets/images/aa.png
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
