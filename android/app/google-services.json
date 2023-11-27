@@ -1,23 +1,21 @@
 {
   "project_info": {
-    "project_number": "587258839663",
-    "project_id": "thula-s-carhire",
-    "storage_bucket": "thula-s-carhire.appspot.com"
+    "project_number": "929390712589",
+    "project_id": "car-rental-application-b38a4",
+    "storage_bucket": "car-rental-application-b38a4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:587258839663:android:d543ef57c61ede81f0439a",
+        "mobilesdk_app_id": "1:929390712589:android:92188201cafbb433af8244",
         "android_client_info": {
           "package_name": "com.example.thula_rental"
         }
       },
-      "oauth_client": [
-
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyClRsVlx9u30Vf_VxgpOd57RvlJAD036hA"
+          "current_key": "AIzaSyACmu4S2vwbj5dTAyuPvaw89HtJX7x46Yo"
         }
       ],
       "services": {

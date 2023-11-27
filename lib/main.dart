@@ -1,7 +1,21 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:thula_rental/views/Welcome/WelcomeScreen.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if(kIsWeb){
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyDQZhiIrpfc5g8cIRUCCW6TguAcvxPFuLo",
+          projectId: "car-rental-application-b38a4",
+          messagingSenderId: "929390712589",
+          appId: "1:929390712589:web:f5e5ecf0034f3f89af8244",
+      )
+    );
+
+  }
   runApp(const MyApp());
 }
 
