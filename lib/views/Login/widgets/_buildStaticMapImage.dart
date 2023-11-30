@@ -6,6 +6,6 @@ class BuildStaticMapImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return  Image.asset('assets/images/thulawenamotors.png',height: 120.0,);
+    return  Image.asset('assets/images/thulawenamotors.png',height: 120,);
   }
 }

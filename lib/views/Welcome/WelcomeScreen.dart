@@ -45,7 +45,7 @@ class WelcomeScreen extends StatelessWidget {
                                      borderRadius: BorderRadius.circular(12)),
                               ),
                               onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => RegisterUser()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const LoginScreen()));
                               },
                               child: Text("Get started",style:
                                 Theme.of(context)

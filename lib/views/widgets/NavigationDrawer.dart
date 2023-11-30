@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/colors.dart';
 import '../Login/LoginScreen.dart';
@@ -16,25 +17,22 @@ class _NavDrawerState extends State<NavDrawer> {
 
   String _name="";
   String _email="";
-  String _logo = "default";
 
-  // void client() async {
-  //   // SharedPreferences localStorage = await SharedPreferences.getInstance();
-  //   var name = localStorage.getString('user_name');
-  //   var email = localStorage.getString('email');
-  //   var logo = localStorage.getString('logo');
-  //   setState(() {
-  //     _name = name!;
-  //     _email = email!;
-  //     _logo = logo!;
-  //
-  //   });
-  // }
+
+  void client() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var name = localStorage.getString('user_name');
+    var email = localStorage.getString('email');
+    setState(() {
+      _name = name!;
+      _email = email!;
+    });
+  }
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // client();
+    client();
   }
 
   @override
@@ -88,18 +86,36 @@ class _NavDrawerState extends State<NavDrawer> {
   Widget buildMenuItems(BuildContext context) => Container(
     padding: const EdgeInsets.all(24),
     child: Wrap(
-      runSpacing: 16,
+      runSpacing: 9,
       children: [
-        // ListTile(
-        //   leading: const Icon(Icons.contacts),
-        //   title: const Text("Close Contact"),
-        //   onTap: (){
-        //     //close navigation drawer
-        //     Navigator.pop(context);
-        //     Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  Contact(),
-        //     ));
-        //   },
-        // ),
+        ListTile(
+          leading: Icon(Icons.calendar_today),
+          title: Text('My Reservations'),
+          onTap: () {
+            // Handle My Reservations tap
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.credit_card),
+          title: Text('Payment Methods'),
+          onTap: () {
+            // Handle Payment Methods tap
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.local_offer),
+          title: Text('Promotions'),
+          onTap: () {
+            // Handle Promotions tap
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.history),
+          title: Text('History'),
+          onTap: () {
+            // Handle History tap
+          },
+        ),
         ListTile(
           leading: const Icon(Icons.settings_sharp),
           title: const Text("Settings"),
