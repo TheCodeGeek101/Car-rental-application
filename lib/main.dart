@@ -1,9 +1,11 @@
+// import 'package:flutter/foundation.dart'
 import 'package:flutter/material.dart';
 import 'package:thula_rental/views/Home/HomeScreen.dart';
 import 'package:thula_rental/views/Login/LoginScreen.dart';
 import 'package:thula_rental/views/Register/RegisterScreen.dart';
 import 'package:thula_rental/views/SplashScreen.dart';
 import 'package:thula_rental/views/Welcome/WelcomeScreen.dart';
+// import 'package:firebase_app_check/firebase_app_check.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +38,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/login': (context) => const LoginScreen(),
         '/signUp': (context) => RegisterUser(),
-        '/home': (context) => const HomeScreen(),
+        '/home': (context) => HomeScreen(),
         '/welcome': (context) => const WelcomeScreen(),
       },
     );

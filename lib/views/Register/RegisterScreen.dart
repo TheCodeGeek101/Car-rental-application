@@ -11,7 +11,7 @@ import '../../utils/colors.dart';
 import '../../utils/toast.dart';
 import '../Home/HomeScreen.dart';
 import '../Login/LoginScreen.dart';
-import '../Login/widgets/_buildStaticMapImage.dart';
+import 'package:thula_rental/views/widgets/_buildStaticMapImage.dart';
 
 class RegisterUser extends StatefulWidget {
   RegisterUser({super.key});

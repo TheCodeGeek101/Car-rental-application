@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thula_rental/views/Login/widgets/FormFields.dart';
-import 'package:thula_rental/views/Login/widgets/_buildStaticMapImage.dart';
+import 'package:thula_rental/views/widgets/_buildStaticMapImage.dart';
 import '../../services/BackendApi.dart';
 // import '../../services/firebaseAuthServices.dart';
 import '../../utils/colors.dart';
@@ -183,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         _isSigning = false;
       });
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  const HomeScreen()));
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  HomeScreen()));
       showToast(message: "User is successfully signed in");
       print("user id is:" + body['user']['id']);
       await localStorage.setString('id', body['user']['id']);
@@ -217,11 +217,9 @@ class _LoginScreenState extends State<LoginScreen> {
   //         idToken: googleSignInAuthentication.idToken,
   //         accessToken: googleSignInAuthentication.accessToken,
   //       );
-  //
   //       await _firebaseAuth.signInWithCredential(credential);
   //       Navigator.pushNamed(context, "/home");
   //     }
-  //
   //   }catch(e) {
   //     showToast(message: "some error occured $e");
   //   }
