@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../models/Car.dart';
 import '../../utils/colors.dart';
-import '../../models/data.dart';
+import '../../models/Navigation.dart';
 
 class BookCar extends StatefulWidget {
 
@@ -181,13 +182,13 @@ class _BookCarState extends State<BookCar> {
                                 _currentImage = page;
                               });
                             },
-                            children: widget.car.images.map((path) {
+                            children: widget.car.images.map((imageSource) {
                               return Container(
                                 padding: EdgeInsets.symmetric(horizontal: 16,),
                                 child: Hero(
                                   tag: widget.car.model,
-                                  child: Image.asset(
-                                    path,
+                                  child: Image.network(
+                                    imageSource.getImageUrl(), // Assuming getImageUrl is the correct method to get the image URL
                                     fit: BoxFit.scaleDown,
                                   ),
                                 ),
@@ -216,7 +217,7 @@ class _BookCarState extends State<BookCar> {
 
                             buildPricePerPeriod(
                               "12",
-                              "4.350",
+                              "${widget.car.price}",
                               true,
                             ),
                             SizedBox(
@@ -224,7 +225,7 @@ class _BookCarState extends State<BookCar> {
                             ),
                             buildPricePerPeriod(
                               "6",
-                              "4.800",
+                              "${widget.car.price - 500}",
                               false,
                             ),
                             SizedBox(
@@ -232,7 +233,7 @@ class _BookCarState extends State<BookCar> {
                             ),
                             buildPricePerPeriod(
                               "1",
-                              "5.100",
+                              "${widget.car.price - 900}",
                               false,
                             ),
 
@@ -277,12 +278,12 @@ class _BookCarState extends State<BookCar> {
                         physics: BouncingScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         children: [
-                          buildSpecificationCar("Color", "White"),
-                          buildSpecificationCar("Gearbox", "Automatic"),
-                          buildSpecificationCar("Seat", "4"),
-                          buildSpecificationCar("Motor", "v10 2.0"),
-                          buildSpecificationCar("Speed (0-100)", "3.2 sec"),
-                          buildSpecificationCar("Top Speed", "121 mph"),
+                          buildSpecificationCar("Color", widget.car.color),
+                          buildSpecificationCar("Gearbox", widget.car.gearbox),
+                          buildSpecificationCar("Seat", "${widget.car.seat}"),
+                          buildSpecificationCar("Motor", widget.car.motor),
+                          buildSpecificationCar("Speed (0-100)", "${widget.car.speed} sec"),
+                          buildSpecificationCar("Top Speed", "${widget.car.topSpeed} mph"),
                         ],
                       ),
                     ),
@@ -326,7 +327,7 @@ class _BookCarState extends State<BookCar> {
                   children: [
 
                     Text(
-                      "USD 4,350",
+                      "USD ${widget.car.price}",
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,

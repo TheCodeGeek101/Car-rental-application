@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../models/Car.dart';
+import '../../models/Filter.dart';
 import '../../utils/colors.dart';
-import '../../models/data.dart';
+import '../../models/Navigation.dart';
 import '../Book car/BookCar.dart';
+import '../../helpers/GetCarsHelper.dart';
 import 'CarWidget.dart';
 
 class AvailableCars extends StatefulWidget {
@@ -10,15 +13,16 @@ class AvailableCars extends StatefulWidget {
 }
 
 class _AvailableCarsState extends State<AvailableCars> {
-
   List<Filter> filters = getFilterList();
   late Filter selectedFilter;
+  late Future<List<Car>> cars;
 
   @override
   void initState() {
     super.initState();
     setState(() {
       selectedFilter = filters[0];
+      cars = GetCarsHelper().getCarsFromApi();
     });
   }
 
@@ -33,70 +37,81 @@ class _AvailableCarsState extends State<AvailableCars> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
                 },
                 child: Container(
-                    width: 45,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(15),
-                      ),
-                      border: Border.all(
-                        color: Colors.grey.shade300,
-                        width: 1,
-                      ),
+                  width: 45,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(15),
                     ),
-                    child: Icon(
-                      Icons.keyboard_arrow_left,
-                      color: Colors.black,
-                      size: 28,
-                    )
+                    border: Border.all(
+                      color: Colors.grey.shade300,
+                      width: 1,
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.keyboard_arrow_left,
+                    color: Colors.black,
+                    size: 28,
+                  ),
                 ),
               ),
-
               SizedBox(
                 height: 1,
               ),
-
-              Text(
-                "Available Cars (" + getCarList().length.toString() + ")",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              SizedBox(
-                height: 1,
-              ),
-
-              Expanded(
-                child: GridView.count(
-                  physics: BouncingScrollPhysics(),
-                  childAspectRatio: 1 / 1.55,
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 15,
-                  mainAxisSpacing: 15,
-                  children: getCarList().map((item) {
-                    return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => BookCar(car: item)),
-                          );
-                        },
-                        child: buildCar(item, 0)
+              FutureBuilder<List<Car>>(
+                future: cars,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    List<Car> carList = snapshot.data!;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Available Cars (${carList.length})",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 36,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 1,
+                        ),
+                        Expanded(
+                          child: GridView.count(
+                            physics: BouncingScrollPhysics(),
+                            childAspectRatio: 1 / 1.55,
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 15,
+                            mainAxisSpacing: 15,
+                            children: carList.map((item) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => BookCar(car: item)),
+                                  );
+                                },
+                                child: buildCar(item, 0),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
                     );
-                  }).toList(),
-                ),
+                  }
+                },
               ),
-
             ],
           ),
         ),
@@ -118,7 +133,7 @@ class _AvailableCarsState extends State<AvailableCars> {
     );
   }
 
-  Widget buildFilterIcon(){
+  Widget buildFilterIcon() {
     return Container(
       width: 50,
       height: 50,
@@ -139,7 +154,7 @@ class _AvailableCarsState extends State<AvailableCars> {
     );
   }
 
-  List<Widget> buildFilters(){
+  List<Widget> buildFilters() {
     List<Widget> list = [];
     for (var i = 0; i < filters.length; i++) {
       list.add(buildFilter(filters[i]));
@@ -147,7 +162,7 @@ class _AvailableCarsState extends State<AvailableCars> {
     return list;
   }
 
-  Widget buildFilter(Filter filter){
+  Widget buildFilter(Filter filter) {
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -155,7 +170,7 @@ class _AvailableCarsState extends State<AvailableCars> {
         });
       },
       child: Padding(
-        padding: EdgeInsets.only(right:0),
+        padding: EdgeInsets.only(right: 0),
         child: Text(
           filter.name,
           style: TextStyle(

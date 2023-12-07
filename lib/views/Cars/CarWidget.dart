@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_sanity/flutter_sanity.dart'; // Assuming this is the correct import for SanityClient
+import '../../models/Car.dart';
 import '../../utils/colors.dart';
-import '../../models/data.dart';
+
+final sanityClient = SanityClient(projectId: "ilicayds", dataset: "production");
 
 Widget buildCar(Car car, int index) {
   return Container(
@@ -14,71 +16,67 @@ Widget buildCar(Car car, int index) {
     padding: EdgeInsets.all(16),
     margin: EdgeInsets.only(right: index != null ? 16 : 0, left: index == 0 ? 16 : 0),
     width: 220,
-    child: Expanded(
-      flex:2,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              decoration: BoxDecoration(
-                color: btnPrimary,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15),
-                ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Align(
+          alignment: Alignment.centerRight,
+          child: Container(
+            decoration: BoxDecoration(
+              color: btnPrimary,
+              borderRadius: BorderRadius.all(
+                Radius.circular(15),
               ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 1),
-                child: Text(
-                  car.condition,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 7,
-                    fontWeight: FontWeight.bold,
-                  ),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 1),
+              child: Text(
+                car.condition,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 7,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ),
-          SizedBox(height: 2),
-          Container(
-            height: 70,
-            child: Center(
-              child: Hero(
-                tag: car.model,
-                child: Expanded(
-                  child: Image.asset(
-                    car.images[0],
-                    fit: BoxFit.fitWidth,
-                  ),
-                ),
+        ),
+        SizedBox(height: 2),
+        Container(
+          height: 70,
+          child: Center(
+            child: Hero(
+              tag: car.model,
+              child: Image.network(
+                car.images.isNotEmpty ? car.images[0].getImageUrl() : '',
+                fit: BoxFit.fitWidth,
               ),
             ),
           ),
-          SizedBox(height: 20),
-          Text(
-            car.model,
-            style: TextStyle(fontSize: 18),
+        ),
+        SizedBox(height: 20),
+        Text(
+          car.model,
+          style: TextStyle(fontSize: 18),
+        ),
+        SizedBox(height: 8),
+        Text(
+          car.brand,
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            height: 1,
           ),
-          SizedBox(height: 8),
-          Text(
-            car.brand,
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              height: 1,
-            ),
+        ),
+        Text(
+          "per " + (car.condition == "Daily" ? "day" : car.condition == "Weekly" ? "week" : "month"),
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.grey,
           ),
-          Text(
-            "per " + (car.condition == "Daily" ? "day" : car.condition == "Weekly" ? "week" : "month"),
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     ),
   );
 }
+

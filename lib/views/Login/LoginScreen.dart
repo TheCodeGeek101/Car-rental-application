@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thula_rental/views/Login/widgets/FormFields.dart';
 import 'package:thula_rental/views/widgets/_buildStaticMapImage.dart';
+import '../../Helpers/GetCarsHelper.dart';
+import '../../Helpers/GetDealersHelper.dart';
 import '../../services/BackendApi.dart';
 // import '../../services/firebaseAuthServices.dart';
 import '../../utils/colors.dart';
@@ -13,7 +15,6 @@ import '../../utils/toast.dart';
 import '../Register/RegisterScreen.dart';
 import '../Register/widgets/FormContainerWidget.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -24,10 +25,14 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isSigning = false;
-  // final FirebaseAuthService _auth = FirebaseAuthService();
-  // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
 
   @override
   void dispose() {
@@ -125,9 +130,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   )
                 ),
               ),
-              const SizedBox(height: 10,),
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -183,6 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         _isSigning = false;
       });
+
       Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  HomeScreen()));
       showToast(message: "User is successfully signed in");
       print("user id is:" + body['user']['id']);

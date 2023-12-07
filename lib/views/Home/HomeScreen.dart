@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:thula_rental/views/Home/widgets/dealer.dart';
-
+import '../../Helpers/GetDealersHelper.dart';
+import '../../models/Car.dart';
+import '../../models/Dealers.dart';
 import '../../utils/colors.dart';
-import '../../models/data.dart';
+import '../../models/Navigation.dart';
 import '../Book car/BookCar.dart';
 import '../Cars/AvailableCars.dart';
 import '../Cars/CarWidget.dart';
 import '../widgets/NavigationDrawer.dart';
+import '../../helpers/GetCarsHelper.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,8 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<NavigationItem> navigationItems = getNavigationItemList();
   late NavigationItem selectedItem;
 
-  List<Car> cars = getCarList();
-  List<Dealer> dealers = getDealerList();
+  Future<List<Car>> cars = GetCarsHelper().getCarsFromApi();
+  Future<List> dealers = GetDealersHelper().getCarDealers();
 
   @override
   void initState() {
@@ -28,36 +31,64 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  List<Widget> buildDeals(AsyncSnapshot<List<Car>> snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return [const CircularProgressIndicator()];
+    } else if (snapshot.hasError) {
+      print(snapshot.error.toString());
+      return [
+        Text('Error: ${snapshot.error}')
+      ];
+    } else {
+      List<Car> carsList = snapshot.data!;
+      List<Widget> list = [];
+      for (var i = 0; i < carsList.length; i++) {
+        list.add(GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => BookCar(car: carsList[i])),
+            );
+          },
+          child: buildCar(carsList[i], i),
+        ));
+      }
+      return list;
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                }
-                , icon: const Icon(Icons.menu, color: btnPrimary),
-                tooltip: MaterialLocalizations
-                    .of(context)
-                    .openAppDrawerTooltip,
-              );
-            },
-          ),
-          title: const Text("Home",style: TextStyle(color: Colors.white,)),
-          backgroundColor: backgroundColor,
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.add_alert,color: btnPrimary),
-              tooltip: 'Show Snackbar',
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('This is a snackbar')));
+                Scaffold.of(context).openDrawer();
               },
-            )
-          ]
+              icon: const Icon(Icons.menu, color: btnPrimary),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
+        ),
+        title: const Text(
+          "Home",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: backgroundColor,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add_alert, color: btnPrimary),
+            tooltip: 'Show Snackbar',
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('This is a snackbar')));
+            },
+          )
+        ],
       ),
       drawer: const NavDrawer(),
       body: Column(
@@ -80,7 +111,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   filled: true,
                   fillColor: Colors.grey[100],
-                  contentPadding: EdgeInsets.only(left: 30,),
+                  contentPadding: EdgeInsets.only(
+                    left: 30,
+                  ),
                   suffixIcon: Padding(
                     padding: EdgeInsets.only(right: 24.0, left: 16.0),
                     child: Icon(
@@ -93,7 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-
           Expanded(
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
@@ -107,13 +139,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: Column(
                   children: [
-
                     Padding(
                       padding: EdgeInsets.all(16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-
                           Text(
                             "TOP DEALS",
                             style: TextStyle(
@@ -122,10 +152,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Colors.grey[400],
                             ),
                           ),
-
                           Row(
                             children: [
-
                               Text(
                                 "view all",
                                 style: TextStyle(
@@ -134,30 +162,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: btnPrimary,
                                 ),
                               ),
-
-
                               Icon(
                                 Icons.arrow_forward_ios,
                                 size: 12,
                                 color: btnPrimary,
                               ),
-
                             ],
                           ),
-
                         ],
                       ),
                     ),
-
-                    Container(
-                      height:270,
-                      child: ListView(
-                        physics: BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        children: buildDeals(),
-                      ),
+                    FutureBuilder<List<Car>>(
+                      future: GetCarsHelper().getCarsFromApi(),
+                      builder: (context, snapshot) {
+                        return Container(
+                          height: 270,
+                          child: ListView(
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            children: buildDeals(snapshot),
+                          ),
+                        );
+                      },
                     ),
-
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -179,12 +206,10 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-
                                   Text(
                                     "Available Cars",
                                     style: TextStyle(
@@ -193,7 +218,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: Colors.white,
                                     ),
                                   ),
-
                                   Text(
                                     "Long term and short term",
                                     style: TextStyle(
@@ -201,10 +225,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       color: Colors.white,
                                     ),
                                   ),
-
                                 ],
                               ),
-
                               Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -221,19 +243,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ),
-
                             ],
                           ),
                         ),
                       ),
                     ),
-
                     Padding(
                       padding: EdgeInsets.all(16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-
                           Text(
                             "TOP DEALERS",
                             style: TextStyle(
@@ -242,10 +261,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Colors.grey[400],
                             ),
                           ),
-
                           Row(
                             children: [
-
                               Text(
                                 "view all",
                                 style: TextStyle(
@@ -254,50 +271,48 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: btnPrimary,
                                 ),
                               ),
-
                               SizedBox(
                                 width: 8,
                               ),
-
                               Icon(
                                 Icons.arrow_forward_ios,
                                 size: 12,
                                 color: btnPrimary,
                               ),
-
                             ],
                           ),
-
                         ],
                       ),
                     ),
-
-                    Container(
-                      height: 150,
-                      margin: EdgeInsets.only(bottom: 16),
-                      child: ListView(
-                        physics: BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        children: buildDealers(),
-                      ),
+                    FutureBuilder<List>(
+                      future: GetDealersHelper().getCarDealers(),
+                      builder: (context, snapshot) {
+                        return Container(
+                          height: 150,
+                          margin: EdgeInsets.only(bottom: 16),
+                          child: ListView(
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            children: buildDealers(snapshot),
+                          ),
+                        );
+                      },
                     ),
-
                   ],
                 ),
               ),
             ),
           ),
-
         ],
       ),
       bottomNavigationBar: Container(
         height: 70,
         decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30),
-              topRight: Radius.circular(30),
-            )
+          color: backgroundColor,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -307,33 +322,24 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  List<Widget> buildDeals(){
-    List<Widget> list = [];
-    for (var i = 0; i < cars.length; i++) {
-      list.add(
-          GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => BookCar(car: cars[i])),
-                );
-              },
-              child: buildCar(cars[i], i)
-          )
-      );
+  List<Widget> buildDealers(AsyncSnapshot<List> snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return [const CircularProgressIndicator()];
+    } else if (snapshot.hasError) {
+      print(snapshot.error.toString());
+      return [Text('Error: ${snapshot.error}')];
+    } else {
+      List dealersList = snapshot.data!;
+      List<Widget> list = [];
+      for (var i = 0; i < dealersList.length; i++) {
+        list.add(buildDealer(dealersList[i], i));
+      }
+      return list;
     }
-    return list;
   }
 
-  List<Widget> buildDealers(){
-    List<Widget> list = [];
-    for (var i = 0; i < dealers.length; i++) {
-      list.add(buildDealer(dealers[i], i));
-    }
-    return list;
-  }
 
-  List<Widget> buildNavigationItems(){
+  List<Widget> buildNavigationItems() {
     List<Widget> list = [];
     for (var navigationItem in navigationItems) {
       list.add(buildNavigationItem(navigationItem));
@@ -341,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return list;
   }
 
-  Widget buildNavigationItem(NavigationItem item){
+  Widget buildNavigationItem(NavigationItem item) {
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -352,7 +358,6 @@ class _HomeScreenState extends State<HomeScreen> {
         width: 50,
         child: Stack(
           children: <Widget>[
-
             selectedItem == item
                 ? Center(
               child: Container(
@@ -364,7 +369,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )
                 : Container(),
-
             Center(
               child: Icon(
                 item.iconData,
@@ -372,11 +376,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 size: 24,
               ),
             )
-
           ],
         ),
       ),
     );
   }
-
 }

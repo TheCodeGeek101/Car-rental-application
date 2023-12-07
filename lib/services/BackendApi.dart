@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class CallApi{
 
-  //-------------------------------------------------------------------
   // Post data to the backend Api in Node js
   postData(data, apiUrl) async {
     var fullUrl = 'https://backend-api-green-sigma.vercel.app/' + apiUrl + await _getToken();
@@ -37,6 +36,4 @@ class CallApi{
     var token = localStorage.getString('token');
     return '?token=$token';
   }
-
-
 }

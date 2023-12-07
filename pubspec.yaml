@@ -46,6 +46,7 @@ dependencies:
   firebase_app_check: ^0.2.1+6
   shared_preferences: ^2.2.2
   flutter_sanity: ^1.1.0
+  flutter_sanity_image_url: ^0.0.3
 
 dev_dependencies:
   flutter_test:
