@@ -39,7 +39,7 @@ class WelcomeScreen extends StatelessWidget {
                             CarDescription(),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                fixedSize: Size(size.width, size.height * 0.08),
+                                fixedSize: Size(size.width, size.height * 0.008),
                                 backgroundColor: btnPrimary,
                                 shape: RoundedRectangleBorder(
                                      borderRadius: BorderRadius.circular(12)),
@@ -52,7 +52,7 @@ class WelcomeScreen extends StatelessWidget {
                                   .textTheme
                                   .headlineSmall!
                                   .copyWith(
-                                      color: backgroundColor
+                                      color: Colors.white,
                                 )
                               ),
                             )
@@ -64,7 +64,7 @@ class WelcomeScreen extends StatelessWidget {
                         left: -size.height * 0.5 * 0.10,
                         child: SizedBox(
                           height: size.height * 0.5,
-                          child: Image.asset("assets/images/aa.png",fit: BoxFit.fitHeight)
+                          child: Image.asset("assets/images/camaro_2.png",fit: BoxFit.fitHeight)
                         ),
                       ),
                     ],

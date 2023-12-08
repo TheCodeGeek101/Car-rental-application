@@ -17,7 +17,7 @@ class CarDescription extends StatelessWidget {
               Text("Experience the Thrill of the road with our rentals",
                 style: Theme.of(context)
                     .textTheme
-                    .titleMedium!
+                    .titleSmall!
                     .copyWith(
                     color: Colors.white,
                     letterSpacing: 1.2,
