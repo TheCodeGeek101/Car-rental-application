@@ -16,7 +16,7 @@ class GetDealersHelper{
 
       // if response is successful
       if (res.statusCode == 200) {
-        showToast(message: "Data retrieved");
+        // showToast(message: "Data retrieved");
 
         List<Dealer> dealersList = [];
 

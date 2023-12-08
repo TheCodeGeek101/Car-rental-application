@@ -13,7 +13,7 @@ class GetCarsHelper {
       var body = json.decode(res.body);
 
       if (res.statusCode == 200) {
-        showToast(message: "Data retrieved");
+        // showToast(message: "Data retrieved");
 
         List<Car> carsList = [];
 
