@@ -31,7 +31,10 @@ class GetCarsHelper {
               car['motor'],
               car['id'],
               [
-                SanityImageSource(car['frontImage'])
+                if (car['frontImage'] != null) SanityImageSource(car['frontImage']),
+                if (car['rearImage'] != null) SanityImageSource(car['rearImage']),
+                if (car['sideImage'] != null) SanityImageSource(car['sideImage']),
+                if (car['upperImage'] != null) SanityImageSource(car['upperImage']),
               ]
           );
           carsList.add(newCar);

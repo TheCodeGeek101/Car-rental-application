@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  HomeScreen()));
       showToast(message: "User is successfully signed in");
       print("user id is:" + body['user']['id']);
-      await localStorage.setString('id', body['user']['id']);
+      await localStorage.setString('user_id', body['user']['id']);
       await localStorage.setString('user_name', body['user']['name']);
       await localStorage.setString('email', body['user']['email']);
       await localStorage.setString('password',body['user']['password']);

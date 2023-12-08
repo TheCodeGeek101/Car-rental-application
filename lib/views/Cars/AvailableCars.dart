@@ -46,7 +46,7 @@ class _AvailableCarsState extends State<AvailableCars> {
                   height: 45,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(15),
                     ),
                     border: Border.all(
@@ -54,7 +54,7 @@ class _AvailableCarsState extends State<AvailableCars> {
                       width: 1,
                     ),
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.keyboard_arrow_left,
                     color: Colors.black,
                     size: 28,
@@ -65,28 +65,34 @@ class _AvailableCarsState extends State<AvailableCars> {
                 height: 1,
               ),
               FutureBuilder<List<Car>>(
-                future: cars,
+                future: GetCarsHelper().getCarsFromApi(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
                   } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
+                    );
+                  } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text('No cars available.'),
+                    );
+                  } else if (snapshot.hasData) {
                     List<Car> carList = snapshot.data!;
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Available Cars (${carList.length})",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 36,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(
-                          height: 1,
-                        ),
+                        SizedBox(height: 16),
                         Expanded(
                           child: GridView.count(
                             physics: BouncingScrollPhysics(),
@@ -99,7 +105,9 @@ class _AvailableCarsState extends State<AvailableCars> {
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => BookCar(car: item)),
+                                    MaterialPageRoute(
+                                      builder: (context) => BookCar(car: item),
+                                    ),
                                   );
                                 },
                                 child: buildCar(item, 0),
@@ -108,6 +116,10 @@ class _AvailableCarsState extends State<AvailableCars> {
                           ),
                         ),
                       ],
+                    );
+                  } else {
+                    return Center(
+                      child: Text('No data available.'),
                     );
                   }
                 },

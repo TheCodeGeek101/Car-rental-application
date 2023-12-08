@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/Car.dart';
 import '../../utils/colors.dart';
 import '../../models/Navigation.dart';
+import 'BookingDate.dart';
 
 class BookCar extends StatefulWidget {
 
@@ -17,7 +18,6 @@ class BookCar extends StatefulWidget {
 class _BookCarState extends State<BookCar> {
 
   int _currentImage = 0;
-
   List<Widget> buildPageIndicator(){
     List<Widget> list = [];
     for (var i = 0; i < widget.car.images.length; i++) {
@@ -43,6 +43,8 @@ class _BookCarState extends State<BookCar> {
 
   @override
   Widget build(BuildContext context) {
+    String carId = widget.car.id;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -354,23 +356,26 @@ class _BookCarState extends State<BookCar> {
             ),
             Container(
               height: 50,
-              decoration: BoxDecoration(
-                color: btnPrimary,
+              decoration: const BoxDecoration(
+                color: Colors.white,
                 borderRadius: BorderRadius.all(
                   Radius.circular(15),
                 ),
               ),
               child: Center(
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: Text(
-                    "Book this car",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child:
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: btnPrimary, // background
+                        onPrimary: Colors.white, // foreground
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  BookingDate(id:carId)));
+                      },
+                      child: const Text('Proceed'),
+                    )
                 ),
               ),
             ),
