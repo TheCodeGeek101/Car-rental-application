@@ -190,7 +190,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
       Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  HomeScreen()));
       showToast(message: "User is successfully signed in");
-      print("user id is:" + body['user']['id']);
       await localStorage.setString('user_id', body['user']['id']);
       await localStorage.setString('user_name', body['user']['name']);
       await localStorage.setString('email', body['user']['email']);
@@ -206,28 +205,4 @@ class _LoginScreenState extends State<LoginScreen> {
       showToast(message: body['message']);
     }
   }
-
-  // _signInWithGoogle()async{
-  //
-  //   final GoogleSignIn _googleSignIn = GoogleSignIn();
-  //
-  //   try {
-  //     final GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
-  //
-  //     if(googleSignInAccount != null ){
-  //       final GoogleSignInAuthentication googleSignInAuthentication = await
-  //       googleSignInAccount.authentication;
-  //
-  //       final AuthCredential credential = GoogleAuthProvider.credential(
-  //         idToken: googleSignInAuthentication.idToken,
-  //         accessToken: googleSignInAuthentication.accessToken,
-  //       );
-  //       await _firebaseAuth.signInWithCredential(credential);
-  //       Navigator.pushNamed(context, "/home");
-  //     }
-  //   }catch(e) {
-  //     showToast(message: "some error occured $e");
-  //   }
-  // }
-
 }

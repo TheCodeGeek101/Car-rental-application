@@ -32,7 +32,7 @@ class GetDealersHelper{
         }
 
         // Save the updated list of car dealers to shared preferences
-        await saveCarListToSharedPreferences(dealersList);
+        await saveDealersListToSharedPreferences(dealersList);
         return dealersList;
       } else {
         showToast(message: "Failed to fetch data from API with a status code of" + res.statusCode);
@@ -63,11 +63,11 @@ class GetDealersHelper{
 
 
   // Function to save the list of car dealers to shared preferences
-  Future<void> saveCarListToSharedPreferences(List<Dealer> dealers) async {
+  Future<void> saveDealersListToSharedPreferences(List<Dealer> dealers) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // Convert the list of car dealers to a JSON representation and store it
     String dealersData = json.encode(dealers.map((dealer) => dealer.toJson()).toList());
-    prefs.setString('dealers', dealersData);
+    await prefs.setString('dealers', dealersData);
   }
 }

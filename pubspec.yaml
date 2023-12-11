@@ -48,7 +48,7 @@ dependencies:
   flutter_sanity: ^1.1.0
   flutter_sanity_image_url: ^0.0.3
   intl: ^0.19.0
-
+  stripe_checkout: ^1.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

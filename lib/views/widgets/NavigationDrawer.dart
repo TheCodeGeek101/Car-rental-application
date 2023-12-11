@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/colors.dart';
 import '../Login/LoginScreen.dart';
 import '../Profile/Profile.dart';
+import '../Reservations/CarReservations.dart';
 import '../Settings/Settings.dart';
 
 class NavDrawer extends StatefulWidget {
@@ -92,7 +93,9 @@ class _NavDrawerState extends State<NavDrawer> {
           leading: Icon(Icons.calendar_today),
           title: Text('My Reservations'),
           onTap: () {
-            // Handle My Reservations tap
+            Navigator.pop(context);
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  CarReservations(),
+            ));
           },
         ),
         ListTile(

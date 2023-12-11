@@ -77,6 +77,6 @@ class GetCarsHelper {
 
     // Convert the list of cars to a JSON representation and store it
     String carsData = json.encode(cars.map((car) => car.toJson()).toList());
-    prefs.setString('cars', carsData);
+    await prefs.setString('cars', carsData);
   }
 }
