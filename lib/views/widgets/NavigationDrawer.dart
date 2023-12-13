@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/colors.dart';
 import '../Login/LoginScreen.dart';
+import '../Payments/PaymentScreen.dart';
 import '../Profile/Profile.dart';
 import '../Reservations/CarReservations.dart';
 import '../Settings/Settings.dart';
@@ -102,6 +103,8 @@ class _NavDrawerState extends State<NavDrawer> {
           leading: Icon(Icons.credit_card),
           title: Text('Payment Methods'),
           onTap: () {
+            Navigator.pop(context);
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  PaymentScreen()));
             // Handle Payment Methods tap
           },
         ),

@@ -372,7 +372,7 @@ class _BookCarState extends State<BookCar> {
                         onPrimary: Colors.white, // foreground
                       ),
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  BookingDate(id:carId)));
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  BookingDate(car:widget.car)));
                       },
                       child: const Text('Proceed'),
                     )

@@ -3,13 +3,14 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Helpers/BookCarHelper.dart';
+import '../../models/Car.dart';
 import '../../utils/colors.dart';
+import '../Cars/CarPickupLocation.dart';
 import '../widgets/NavigationDrawer.dart';
 
 class BookingDate extends StatefulWidget {
-  final String id;
-
-  BookingDate({required this.id});
+  final Car car;
+  BookingDate({ required this.car});
 
   @override
   _BookingDateState createState() {
@@ -147,12 +148,13 @@ class _BookingDateState extends State<BookingDate> {
                       SharedPreferences localStorage = await SharedPreferences.getInstance();
                       var customerId = localStorage.getString('user_id');
                       var data = {
-                        "car": widget.id,
+                        "car": widget.car.id,
                         "customer": customerId,
                         "start_time":startDateController.text,
                         "end_time":endDateController.text
                       };
                       BookCarHelper().bookCar(data);
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  CarPickupLocation(car:widget.car)));
                     },
                     child: Text('book this car'),
                   )
