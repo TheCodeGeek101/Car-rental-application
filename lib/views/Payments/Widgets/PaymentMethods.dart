@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../../../Helpers/BookCarHelper.dart';
+import '../../../models/Car.dart';
 import '../../../utils/colors.dart';
+import '../../Cars/CarPickupLocation.dart';
 import 'PaymentCosts.dart';
 
 class PaymentMethods extends StatefulWidget {
-  PaymentMethods({super.key});
-
+  const PaymentMethods({super.key,required this.car,required this.data});
+ final Car car;
+ final Object data;
   @override
   _PaymentMethodsState createState() {
     return _PaymentMethodsState();
@@ -70,10 +74,11 @@ class _PaymentMethodsState extends State<PaymentMethods> {
                               ),
                             ]
                         ),
+                        Spacer(),
                         Image.asset(
                             "assets/images/paypal.png",
-                            width:70,
-                            height:70,
+                            width:150,
+                            height:35,
                             fit:BoxFit.cover
                         )
                       ],
@@ -122,10 +127,11 @@ class _PaymentMethodsState extends State<PaymentMethods> {
                               ),
                             ]
                         ),
+                        Spacer(),
                         Image.asset(
                             "assets/images/stripe.png",
-                            width:75,
-                            height:75,
+                            width:35,
+                            height:35,
                             fit:BoxFit.cover
                         )
                       ],
@@ -206,8 +212,9 @@ class _PaymentMethodsState extends State<PaymentMethods> {
                         fontWeight: FontWeight.w500,
                     )
                 ),
+                Spacer(),
                 Text(
-                    "\$380.50",
+                    "\$  380 " ,
                     style: TextStyle(
                         fontSize:15,
                         fontWeight: FontWeight.w500,
@@ -219,22 +226,16 @@ class _PaymentMethodsState extends State<PaymentMethods> {
           const SizedBox(height: 70),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              fixedSize: Size(50, size.height * 0.008),
-              backgroundColor: btnPrimary,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
+              primary: btnPrimary, // background
+              onPrimary: Colors.white, // foreground
             ),
-            onPressed: () {
-
+            onPressed: () async {
+              if(widget.data != {}){
+                BookCarHelper().bookCar(widget.data);
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  CarPickupLocation(car:widget.car)));
+              }
             },
-            child: Text("Confirm Payment",style:
-            Theme.of(context)
-                .textTheme
-                .headlineSmall!
-                .copyWith(
-              color: Colors.white,
-            )
-            ),
+            child: Text('Confirm Payment'),
           )
         ]
     );

@@ -99,15 +99,15 @@ class _NavDrawerState extends State<NavDrawer> {
             ));
           },
         ),
-        ListTile(
-          leading: Icon(Icons.credit_card),
-          title: Text('Payment Methods'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  PaymentScreen()));
-            // Handle Payment Methods tap
-          },
-        ),
+        // ListTile(
+        //   leading: Icon(Icons.credit_card),
+        //   title: Text('Payment Methods'),
+        //   onTap: () {
+        //     Navigator.pop(context);
+        //     Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  PaymentScreen()));
+        //     // Handle Payment Methods tap
+        //   },
+        // ),
         ListTile(
           leading: Icon(Icons.local_offer),
           title: Text('Promotions'),

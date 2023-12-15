@@ -6,6 +6,7 @@ import '../../Helpers/BookCarHelper.dart';
 import '../../models/Car.dart';
 import '../../utils/colors.dart';
 import '../Cars/CarPickupLocation.dart';
+import '../Payments/PaymentScreen.dart';
 import '../widgets/NavigationDrawer.dart';
 
 class BookingDate extends StatefulWidget {
@@ -153,8 +154,13 @@ class _BookingDateState extends State<BookingDate> {
                         "start_time":startDateController.text,
                         "end_time":endDateController.text
                       };
-                      BookCarHelper().bookCar(data);
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  CarPickupLocation(car:widget.car)));
+
+                      if(data != {}){
+                        // BookCarHelper().bookCar(data);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  PaymentScreen(car:widget.car,data:data)));
+
+                      }
+
                     },
                     child: Text('book this car'),
                   )

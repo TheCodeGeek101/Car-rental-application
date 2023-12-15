@@ -1,196 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:thula_rental/views/Cars/widgets/car_list_item.dart';
 import '../../models/Car.dart';
-import '../../models/Filter.dart';
 import '../../utils/colors.dart';
-import '../../models/Navigation.dart';
-import '../Book car/BookCar.dart';
-import '../../helpers/GetCarsHelper.dart';
-import 'CarWidget.dart';
+import '../widgets/NavigationDrawer.dart';
+import '../../../helpers/GetCarsHelper.dart'; // Import the GetCarsHelper
 
-class AvailableCars extends StatefulWidget {
-  @override
-  _AvailableCarsState createState() => _AvailableCarsState();
-}
-
-class _AvailableCarsState extends State<AvailableCars> {
-  List<Filter> filters = getFilterList();
-  late Filter selectedFilter;
-  late Future<List<Car>> cars;
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      selectedFilter = filters[0];
-      cars = GetCarsHelper().getCarsFromApi();
-    });
-  }
-
+class AvailableCarScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: 45,
-                  height: 45,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(15),
-                    ),
-                    border: Border.all(
-                      color: Colors.grey.shade300,
-                      width: 1,
-                    ),
-                  ),
-                  child: const Icon(
-                    Icons.keyboard_arrow_left,
-                    color: Colors.black,
-                    size: 28,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 1,
-              ),
-              FutureBuilder<List<Car>>(
-                future: GetCarsHelper().getCarsFromApi(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Error: ${snapshot.error}'),
-                    );
-                  } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-                    return const Center(
-                      child: Text('No cars available.'),
-                    );
-                  } else if (snapshot.hasData) {
-                    List<Car> carList = snapshot.data!;
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Available Cars (${carList.length})",
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 36,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        Expanded(
-                          child: GridView.count(
-                            physics: BouncingScrollPhysics(),
-                            childAspectRatio: 1 / 1.55,
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 15,
-                            mainAxisSpacing: 15,
-                            children: carList.map((item) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => BookCar(car: item),
-                                    ),
-                                  );
-                                },
-                                child: buildCar(item, 0),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ],
-                    );
-                  } else {
-                    return Center(
-                      child: Text('No data available.'),
-                    );
-                  }
-                },
-              ),
-            ],
-          ),
+      backgroundColor: backgroundColor,
+      appBar: AppBar(
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+              icon: Icon(Icons.menu, color: btnPrimary),
+              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+            );
+          },
         ),
+        title: const Text(
+          "Available Cars",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: secBackgroundColor,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add_alert, color: btnPrimary),
+            tooltip: 'Show Snackbar',
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('This is a snackbar')));
+            },
+          )
+        ],
       ),
-      bottomNavigationBar: Container(
-        height: 90,
-        decoration: BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Row(
-          children: [
-            buildFilterIcon(),
-            Row(
-              children: buildFilters(),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildFilterIcon() {
-    return Container(
-      width: 50,
-      height: 50,
-      margin: EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        color: btnPrimary,
-        borderRadius: BorderRadius.all(
-          Radius.circular(15),
-        ),
-      ),
-      child: Center(
-        child: Icon(
-          Icons.filter_list,
-          color: Colors.white,
-          size: 24,
-        ),
-      ),
-    );
-  }
-
-  List<Widget> buildFilters() {
-    List<Widget> list = [];
-    for (var i = 0; i < filters.length; i++) {
-      list.add(buildFilter(filters[i]));
-    }
-    return list;
-  }
-
-  Widget buildFilter(Filter filter) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          selectedFilter = filter;
-        });
-      },
-      child: Padding(
-        padding: EdgeInsets.only(right: 0),
-        child: Text(
-          filter.name,
-          style: TextStyle(
-            color: selectedFilter == filter ? btnPrimary : Colors.grey[300],
-            fontSize: 16,
-            fontWeight: selectedFilter == filter ? FontWeight.bold : FontWeight.normal,
-          ),
-        ),
+      body: FutureBuilder<List<Car>>(
+        future: GetCarsHelper().getCarsFromApi(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // If still loading, you can show a loading indicator
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            // If there's an error, you can display an error message
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            // If there's no data, you can handle it accordingly
+            return Center(child: Text('No cars available.'));
+          } else {
+            // Data has been loaded successfully
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) => CarListItem(index),
+            );
+          }
+        },
       ),
     );
   }

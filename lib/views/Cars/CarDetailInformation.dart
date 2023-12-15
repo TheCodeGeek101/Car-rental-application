@@ -123,7 +123,7 @@ class DriverInfo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Jesica Smith',
+              'Thembinkosi Tizifa',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,

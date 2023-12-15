@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PaymentCosts extends StatefulWidget {
-  PaymentCosts({super.key});
+  const PaymentCosts({super.key});
 
   @override
   _PaymentCostsState createState() {
@@ -33,6 +33,7 @@ class _PaymentCostsState extends State<PaymentCosts> {
                   color:Colors.grey
               )
           ),
+          const SizedBox(width:20),
           Text(
               "\$300.50",
               style: TextStyle(
@@ -41,6 +42,7 @@ class _PaymentCostsState extends State<PaymentCosts> {
                   color:Colors.grey
               )
           ),
+          Spacer(),
           Text(
               "Delivery",
               style: TextStyle(
@@ -49,6 +51,7 @@ class _PaymentCostsState extends State<PaymentCosts> {
                   color:Colors.grey
               )
           ),
+          const SizedBox(width:20),
           Text(
               "\$12.50",
               style: TextStyle(
